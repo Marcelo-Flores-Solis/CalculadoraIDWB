@@ -1,7 +1,8 @@
 # import
-import cgi
+import sys
+import os
 import re
-import cgitb
+import urllib.parse
 
 # habilitar el modo de depuración
 cgitb.enable()
@@ -34,7 +35,11 @@ if match:
         elif operador == '*':
             res = op1 * op2
         elif operador == '/':
-            res = op1 / op2 if op2 != 0 else
+            if op2 != 0:
+                res = op1 / op2
+            else:
+                res = "Error: División por cero"
+
         resultado_html = f"<h2>Resultado: {res}</h2>"
     
     except Exception as e:
@@ -42,6 +47,24 @@ if match:
 else:
     resultado_html = "<h2 style='color:red;'>Formato de operación no válido</h2>"
 
+# Generar respuesta HTML
+
+# Generar respuesta
+print(f"""
+<!DOCTYPE html>
+<html>
+<head><title>Resultado</title></head>
+<body>
+    <div style="text-align:center; margin-top:50px;">
+        <h1>Procesamiento de Operación</h1>
+        <p>Entrada recibida: <strong>{operacion_raw}</strong></p>
+        {resultado_html}
+        <br>
+        <a href="../html/index.html">Volver a calcular</a>
+    </div>
+</body>
+</html>
+""")
 
 
 
