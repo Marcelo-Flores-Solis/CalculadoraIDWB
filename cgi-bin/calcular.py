@@ -71,15 +71,18 @@ print(f"""
 <!DOCTYPE html>
 <html>
 <head>
-      <title>Resultado</title>
-      <link rel="stylesheet" href="../css/styles.css">
+    <title>Resultado</title>
+    <link rel="stylesheet" href="../css/styles.css">
 </head>
-      
 <body>
-    <div style="text-align:center; margin-top:50px;">
-        <h1>Procesamiento de Operación</h1>
+    <div class="container result-card">
+        <h1>Procesamiento </h1>
         <p>Entrada recibida: <strong>{operacion_raw}</strong></p>
-        {resultado_html}
+        
+        <div class="result-value">
+            {resultado_html}
+        </div>
+
         <br>
         <a href="../html/index.html">Volver a calcular</a>
     </div>
