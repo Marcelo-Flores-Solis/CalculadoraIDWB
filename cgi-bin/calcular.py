@@ -70,7 +70,11 @@ else:
 print(f"""
 <!DOCTYPE html>
 <html>
-<head><title>Resultado</title></head>
+<head>
+      <title>Resultado</title>
+      <link rel="stylesheet" href="../css/styles.css">
+</head>
+      
 <body>
     <div style="text-align:center; margin-top:50px;">
         <h1>Procesamiento de Operación</h1>
