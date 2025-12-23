@@ -52,6 +52,7 @@ button:hover {
     margin: 20px 0;
     display: inline-block;
     border: 1px dashed #28a745;
+    word-wrap: break-word;
 }
 
 .error-value {

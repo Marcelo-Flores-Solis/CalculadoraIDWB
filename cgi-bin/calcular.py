@@ -25,48 +25,32 @@ try:
 except Exception as e:
     imprimir_error(e)
 
-# expresiones regulares
-# parentesis opcionales: \(? ... \)?
-# operadores permitidos: ([\+\-\*/])
-# operandos (\d+\.?\d*)
-# espacios opcionales: \s*
-# primer y tercer bloque : \s* \(? \s* (\d+\.?\d*) \s* \)? \s*
-# segundo bloque: ([\+\-\*/])
+# Este Regex valida que la cadena SOLO contenga:
 
-pattern = r"^\s*\(?\s*(\d+\.?\d*)\s*\)?\s*([\+\-\*/])\s*\(?\s*(\d+\.?\d*)\s*\)?\s*$"
+patron_seguro = r"^[0-9\+\-\*/\.\(\)\s]+$"
 
-match = re.match(pattern, operacion_raw)
 
 resultado_html = ""
 
-if match:
-    op1 = float(match.group(1))
-    operador = match.group(2)
-    op2 = float(match.group(3))
-    
+if re.match(patron_seguro, operacion_raw):
     try:
-        if operador == '+':
-            res = op1 + op2
-        elif operador == '-':
-            res = op1 - op2
-        elif operador == '*':
-            res = op1 * op2
-        elif operador == '/':
-            if op2 != 0:
-                res = op1 / op2
-            else:
-                res = "Error: División por cero"
-
+        # Usamos eval() de forma segura tras la validación del Regex.
+        res = eval(operacion_raw)
+        
+        if isinstance(res, float):
+            res = round(res, 4)
+            
         resultado_html = f"<h2>Resultado: {res}</h2>"
     
-    except Exception as e:
-        resultado_html = f"<h2>Error en el cálculo: {str(e)}</h2>"
+    except ZeroDivisionError:
+        resultado_html = "<h2 style='color:red;'>Error: no existe division por 0</h2>"
+    except Exception:
+        resultado_html = "<h2 style='color:red;'>Error: Expresion invalida</h2>"
 else:
-    resultado_html = "<h2 style='color:red;'>Formato de operación no válido</h2>"
+    resultado_html = "<h2 style='color:red;'>Formato no valido</h2>"
 
 # Generar respuesta HTML
 
-# Generar respuesta
 print(f"""
 <!DOCTYPE html>
 <html>
