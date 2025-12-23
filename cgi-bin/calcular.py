@@ -4,9 +4,26 @@ import os
 import re
 import urllib.parse
 
-# habilitar el modo de depuración
-cgitb.enable()
+# Reemplazo del cgitb
+def imprimir_error(e):
+    print("Content-Type: text/html\n")
+    print(f"<h2>Error en el servidor: {e}</h2>")
+    sys.exit()
+
 print("Content-Type: text/html\n") 
+
+# Obtener datos 
+try:
+    # cantidad de datos enviados
+    longitud = int(os.environ.get('CONTENT_LENGTH', 0))
+    # leer datos crudos
+    datos_crudos = sys.stdin.read(longitud)
+    # codficar datos para un diccionario
+    datos_parseados = urllib.parse.parse_qs(datos_crudos)
+    
+    operacion_raw = datos_parseados.get("operacion", [""])[0]
+except Exception as e:
+    imprimir_error(e)
 
 # expresiones regulares
 # parentesis opcionales: \(? ... \)?
